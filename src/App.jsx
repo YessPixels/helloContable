@@ -573,9 +573,15 @@ function App() {
                 <span className="badge badge-gold">Recurso Gratuito</span>
                 <h3>Descarga tu guía gratuita</h3>
                 <p>5 pasos para entender tus números y tomar mejores decisiones hoy mismo.</p>
-                <button className="btn btn-primary" onClick={() => setEbookModalOpen(true)}>
+                <a 
+                  href="https://forms.gle/izFbnu988wbL1nKH6" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-primary"
+                  style={{ display: 'inline-flex', gap: '8px', alignSelf: 'flex-start', textDecoration: 'none', justifyContent: 'center', alignItems: 'center' }}
+                >
                   Descargar ahora <Download size={16} className="btn-icon" />
-                </button>
+                </a>
               </div>
               <div className="promo-box-visual">
                 <img src={ebookGuide} alt="Ebook 5 Pasos para Entender tus Números" className="promo-ebook-img" />

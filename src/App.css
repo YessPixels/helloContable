@@ -290,26 +290,25 @@ body {
 
 /* Hero Visual Block */
 .hero-visual {
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 45%;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  width: 100%;
 }
 
 .hero-main-image {
   width: 100%;
-  max-width: 480px;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
   display: block;
-  filter: drop-shadow(0 20px 40px rgba(114, 13, 24, 0.08));
-  transition: var(--transition-smooth);
-}
-
-.hero-main-image:hover {
-  transform: translateY(-6px);
-  filter: drop-shadow(0 25px 50px rgba(114, 13, 24, 0.15));
+  /* Feathered fade/blur effect on the left edge */
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%);
 }
 
 .hero-handwritten-arrow {
@@ -1208,7 +1207,21 @@ body {
     justify-content: center;
   }
   .hero-visual {
+    position: relative;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: 100%;
     height: auto;
+    margin-top: 40px;
+  }
+  .hero-main-image {
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    object-fit: contain;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .highlights-grid {
     grid-template-columns: repeat(2, 1fr);
