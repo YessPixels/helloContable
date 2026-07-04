@@ -26,8 +26,8 @@ import MaryImg from './img/Mary.jpg';
 import RaulImg from './img/Raul.jpg';
 import logoImg from './img/logo.png';
 import logoBlancoSimple from './img/logo blanco simple.png';
-import ebookGuide from './assets/ebook_guide.jpg';
-import onlineCourse from './assets/online_course.jpg';
+import ebookGuide from './img/Guia gratuita.jpg';
+import onlineCourse from './img/guiaCurso.jpg';
 import heroImg from './img/heroImg.png';
 
 // Calendly URL configuration
@@ -144,6 +144,13 @@ function App() {
 
   // About carousel state
   const [activeAbout, setActiveAbout] = useState(0);
+
+  // Services accordion state
+  const [expandedServices, setExpandedServices] = useState({});
+
+  const toggleService = (idx) => {
+    setExpandedServices(prev => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   // Toast notifications state
   const [toasts, setToasts] = useState([]);
@@ -358,33 +365,65 @@ function App() {
           </div>
 
           <div className="services-grid">
-            {SERVICES.map((s, idx) => (
-              <div key={idx} className="service-card">
-                <div className="service-icon-box">
-                  {s.icon}
+            {SERVICES.map((s, idx) => {
+              const isExpanded = !!expandedServices[idx];
+              return (
+                <div 
+                  key={idx} 
+                  className={`service-card ${isExpanded ? 'expanded' : ''}`}
+                  onClick={() => toggleService(idx)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="service-card-header">
+                    <div className="service-card-header-left">
+                      <div className="service-icon-box">
+                        {s.icon}
+                      </div>
+                      <h3>{s.title}</h3>
+                    </div>
+                    <div className="service-toggle-icon" style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+                      <ChevronRight size={20} />
+                    </div>
+                  </div>
+                  
+                  <div className={`service-card-body ${isExpanded ? 'show' : ''}`}>
+                    <p>{s.desc}</p>
+                  </div>
                 </div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Special Course Card inside Services Grid as Card 9 */}
-            <div className="service-card special-course">
-              <div className="service-icon-box" style={{ color: 'var(--accent-orange)' }}>
-                <BookOpen size={32} />
+            <div 
+              className={`service-card special-course ${expandedServices[8] ? 'expanded' : ''}`}
+              onClick={() => toggleService(8)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="service-card-header">
+                <div className="service-card-header-left">
+                  <div className="service-icon-box" style={{ color: 'var(--accent-orange)' }}>
+                    <BookOpen size={32} />
+                  </div>
+                  <h3>Curso en línea</h3>
+                </div>
+                <div className="service-toggle-icon" style={{ color: 'var(--accent-orange)', transform: expandedServices[8] ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+                  <ChevronRight size={20} />
+                </div>
               </div>
-              <h3>Curso en línea</h3>
-              <p>Aprende a hacer tu Declaración Anual de Sueldos y Salarios de forma sencilla y sin complicaciones.</p>
-              <div className="course-badge">
-                🔥 Disponible en Hotmart
+              
+              <div className={`service-card-body ${expandedServices[8] ? 'show' : ''}`}>
+                <p>Aprende a hacer tu Declaración Anual de Sueldos y Salarios de forma sencilla y sin complicaciones.</p>
+                <div className="course-badge" style={{ marginTop: '16px', display: 'inline-block' }}>
+                  🔥 Disponible en Hotmart
+                </div>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ width: '100%', marginTop: '16px', padding: '10px' }}
+                  onClick={(e) => { e.stopPropagation(); setCourseModalOpen(true); }}
+                >
+                  Ver información
+                </button>
               </div>
-              <button 
-                className="btn btn-primary" 
-                style={{ width: '100%', marginTop: '20px', padding: '10px' }}
-                onClick={() => setCourseModalOpen(true)}
-              >
-                Ver información
-              </button>
             </div>
           </div>
         </div>
@@ -408,7 +447,7 @@ function App() {
                 <Mail size={28} />
               </div>
               <h3>Agendamos una asesoría</h3>
-              <p>Agendamos una asesoría (gratuita o de pago) para conversar sobre tu situación.</p>
+              <p>Agendamos una asesoría para conversar sobre tu situación.</p>
               <div className="step-arrow" />
             </div>
 
@@ -418,7 +457,7 @@ function App() {
                 <FileText size={28} />
               </div>
               <h3>Analizamos tus necesidades</h3>
-              <p>Evaluamos tu situación contable y fiscal para ver qué requiere tu negocio.</p>
+              <p>Evaluamos tu situación financiera y fiscal para ver qué requiere tu negocio.</p>
               <div className="step-arrow" />
             </div>
 
