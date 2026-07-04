@@ -6,6 +6,7 @@ import {
   User, 
   FileText, 
   TrendingUp, 
+  ChevronLeft,
   ChevronRight, 
   Download, 
   Calendar, 
@@ -22,11 +23,12 @@ import {
 } from 'lucide-react';
 import './App.css';
 import MaryImg from './img/Mary.jpg';
+import RaulImg from './img/Raul.jpg';
 import logoImg from './img/logo.png';
+import logoBlancoSimple from './img/logo blanco simple.png';
 import ebookGuide from './assets/ebook_guide.jpg';
 import onlineCourse from './assets/online_course.jpg';
-import dashboardMockup from './assets/dashboard_mockup.jpg';
-import coffeeMug from './assets/coffee_mug.jpg';
+import heroImg from './img/heroImg.png';
 
 // Calendly URL configuration
 const CALENDLY_URL = "https://calendly.com/asesores-hellocontable/45min";
@@ -91,6 +93,29 @@ const TESTIMONIALS = [
   }
 ];
 
+const TEAM = [
+  {
+    name: "Marycruz Paredes",
+    role: "Fundadora & Contadora",
+    image: MaryImg,
+    imagePosition: "center",
+    badge: "Hola, soy Marycruz Paredes",
+    headline: "Detrás de Hello! Contable hay una persona que entiende tu negocio.",
+    description: "Soy contadora y fundadora de Hello! Contable. Creo en una contabilidad moderna, cercana y útil, que realmente te ayude a crecer con tranquilidad.",
+    quote: "En Hello! Contable encontrarás contadores que te van a explicar todo hasta que al fin lo entiendas.",
+  },
+  {
+    name: "Raúl Tello",
+    role: "Socio Financiero",
+    image: RaulImg,
+    imagePosition: "center top",
+    badge: "Hola, soy Raúl Tello",
+    headline: "Ayudo a emprendedores y dueños de negocios a mantener sus operaciones de forma organizada.",
+    description: "Mi objetivo es brindar información clara y confiable para que cada cliente tenga la tranquilidad de enfocarse en hacer crecer su negocio.",
+    quote: "Entender tus números y tener tus finanzas en orden es el primer paso para tomar el control de tu futuro financiero.",
+  }
+];
+
 function App() {
   // Navigation & Scroll states
   const [isScrolled, setIsScrolled] = useState(false);
@@ -116,6 +141,9 @@ function App() {
 
   // Testimonials state
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  // About carousel state
+  const [activeAbout, setActiveAbout] = useState(0);
 
   // Toast notifications state
   const [toasts, setToasts] = useState([]);
@@ -276,31 +304,7 @@ function App() {
           </div>
 
           <div className="hero-visual">
-            <div className="hero-bg-plant">
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 0 C60 20 60 50 50 100 C40 50 40 20 50 0" fill="#720d18" opacity="0.12" />
-                <path d="M20 30 C40 35 45 45 50 100 C30 70 20 50 20 30" fill="#720d18" opacity="0.12" />
-                <path d="M80 30 C60 35 55 45 50 100 C70 70 80 50 80 30" fill="#720d18" opacity="0.12" />
-              </svg>
-            </div>
-
-            <div className="hero-note-container">
-              <p className="hero-handwritten-note">
-                información clara, siempre disponible, desde donde estés.
-              </p>
-              <svg className="hero-handwritten-arrow" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10,10 Q25,35 40,25" stroke="#720d18" strokeWidth="2.5" fill="none" />
-                <path d="M35,22 L41,26 L36,31" stroke="#720d18" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <div className="hero-phone-mockup">
-              <img src={dashboardMockup} alt="Hello! Contable App Dashboard" className="hero-phone-image" />
-            </div>
-
-            <div className="hero-mug-wrap">
-              <img src={coffeeMug} alt="Hello! Contable Taza" className="hero-mug-image" />
-            </div>
+            <img src={heroImg} alt="Hello! Contable Dashboard" className="hero-main-image" />
           </div>
         </div>
       </section>
@@ -336,7 +340,7 @@ function App() {
             <div className="highlight-icon-box">
               <User size={24} />
             </div>
-            <h3>Contadores buenísima onda</h3>
+            <h3>Contadores</h3>
             <p>Cercanos, claros y siempre de tu lado.</p>
           </div>
         </div>
@@ -440,39 +444,114 @@ function App() {
         </div>
       </section>
 
-      {/* --- SOBRE NOSOTROS (MEET THE FOUNDER) --- */}
-      <section id="sobre-nosotros" className="section-padding about-section">
-        <div className="container about-grid">
-          <div className="founder-intro-card">
-            <div className="founder-image-wrapper">
-              <img src={MaryImg} alt="Marycruz Paredes - Fundadora de Hello! Contable" className="founder-photo" />
-              <div className="founder-photo-ring" />
+      {/* --- SOBRE NOSOTROS (TEAM CAROUSEL) --- */}
+      <section id="sobre-nosotros" className="section-padding about-section" style={{ overflow: 'hidden' }}>
+        <div className="container" style={{ position: 'relative' }}>
+          
+          {/* Left Arrow Button */}
+          <button 
+            className="about-carousel-arrow left" 
+            onClick={() => setActiveAbout((prev) => (prev === 0 ? TEAM.length - 1 : prev - 1))}
+            aria-label="Anterior miembro del equipo"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Right Arrow Button */}
+          <button 
+            className="about-carousel-arrow right" 
+            onClick={() => setActiveAbout((prev) => (prev === TEAM.length - 1 ? 0 : prev + 1))}
+            aria-label="Siguiente miembro del equipo"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          <div className="about-carousel-wrapper" style={{ overflow: 'hidden', position: 'relative' }}>
+            <div 
+              className="about-carousel-track" 
+              style={{ 
+                display: 'flex', 
+                transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: `translateX(-${activeAbout * 50}%)`,
+                width: '200%' 
+              }}
+            >
+              {TEAM.map((member, idx) => (
+                <div 
+                  key={idx} 
+                  className="about-slide about-grid" 
+                  style={{ width: '50%', flexShrink: 0 }}
+                >
+                  <div className="founder-intro-card">
+                    <div className="founder-image-wrapper">
+                      <img 
+                        src={member.image} 
+                        alt={`${member.name} - ${member.role}`} 
+                        className="founder-photo" 
+                        style={{ objectPosition: member.imagePosition || 'center' }} 
+                      />
+                      <div className="founder-photo-ring" />
+                    </div>
+                    <span className="badge badge-orange" style={{ alignSelf: 'flex-start' }}>{member.badge}</span>
+                    <h3>{member.headline}</h3>
+                    <p>{member.description}</p>
+                    <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
+                      Agendar con nosotros →
+                    </a>
+                  </div>
+
+                  <div className="founder-quote-card">
+                    <span className="quote-decor">“</span>
+                    <p className="founder-quote-text">
+                      {member.quote}
+                    </p>
+                    <div className="founder-quote-badge">
+                      <div className="founder-quote-author">
+                        <span className="name">{member.name}</span>
+                        <span className="role">{member.role}</span>
+                      </div>
+                      <div className="founder-quote-icon-bubble">
+                        <img src={logoBlancoSimple} alt="Hello! Contable" style={{ height: '100%', width: 'auto', objectFit: 'contain' }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <span className="badge badge-orange" style={{ alignSelf: 'flex-start' }}>Hola, soy Marycruz Paredes</span>
-            <h3>Detrás de Hello! Contable hay una persona que entiende tu negocio.</h3>
-            <p>
-              Soy contadora y fundadora de Hello! Contable. Creo en una contabilidad moderna, cercana y útil, que realmente te ayude a crecer con tranquilidad.
-            </p>
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-              Conoce más sobre mí →
-            </a>
           </div>
 
-          <div className="founder-quote-card">
-            <span className="quote-decor">“</span>
-            <p className="founder-quote-text">
-              En Hello! Contable encontrarás contadores buenísima onda que te van a explicar todo hasta que al fin lo entiendas.
-            </p>
-            <div className="founder-quote-badge">
-              <div className="founder-quote-author">
-                <span className="name">Marycruz Paredes</span>
-                <span className="role">Fundadora & Contadora</span>
-              </div>
-              <div className="founder-quote-icon-bubble">
-                <span>H!</span>
-              </div>
-            </div>
+          {/* Carousel Controls */}
+          <div className="about-carousel-controls" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
+            <button 
+              className="carousel-control-btn"
+              onClick={() => setActiveAbout(0)}
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: activeAbout === 0 ? 'var(--primary-burgundy)' : 'rgba(114, 13, 24, 0.15)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s'
+              }}
+              aria-label="Marycruz Paredes"
+            />
+            <button 
+              className="carousel-control-btn"
+              onClick={() => setActiveAbout(1)}
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: activeAbout === 1 ? 'var(--primary-burgundy)' : 'rgba(114, 13, 24, 0.15)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s'
+              }}
+              aria-label="Raúl Tello"
+            />
           </div>
+
         </div>
       </section>
 
@@ -604,7 +683,7 @@ function App() {
             </div>
             <div className="footer-feature-item">
               <Heart size={16} className="footer-feature-icon" />
-              <span>Contadores buenísima onda</span>
+              <span>Contadores</span>
             </div>
           </div>
 
